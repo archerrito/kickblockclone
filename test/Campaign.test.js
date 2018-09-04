@@ -45,4 +45,11 @@ describe('Campaigns', () => {
         assert.ok(factory.options.address);
         assert.ok(campaign.options.address);
     });
+
+    it('it marks caller as the campaign manager', async () => {
+        //auto created for us, public variable, get method auto created
+        //public variable, not modifying, call, not send
+        const manager = await campaign.methods.manager().call();
+        assert.equal(accounts[0], manager);
+    });
 });
