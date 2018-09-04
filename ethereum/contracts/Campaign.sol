@@ -14,7 +14,7 @@ contract CampaignFactory {
     //public, anyone can call function
     //view, no data modified
     //returns, type of address array
-    function getDeployeCampaigns() public view returns (address[]) {
+    function getDeployedCampaigns() public view returns (address[]) {
         return deployedCampaigns;
     }
 }
