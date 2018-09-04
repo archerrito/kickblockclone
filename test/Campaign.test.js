@@ -75,4 +75,20 @@ describe('Campaigns', () => {
             assert(err);
         }
     });
+
+    it('allows a manager to make a payment request', async () => {
+        //call create request array and pass in arguments
+        await campaign.methods
+            .createRequest('Buy batteries', '100', accounts[1])
+            //modify data
+            .send({
+                from: accounts[0],
+                gas: '1000000'
+            });
+        //requests, auto gen getter for array, index at 0
+        //request is struct, of key value pairs
+        const request = await campaign.methods.requests(0).call();
+        //assuming if description is correct, all correct
+        assert.equal('Buy batteries', request.description);
+    });
 });
