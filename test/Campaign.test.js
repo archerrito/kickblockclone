@@ -91,4 +91,39 @@ describe('Campaigns', () => {
         //assuming if description is correct, all correct
         assert.equal('Buy batteries', request.description);
     });
+
+    it('processes requests', async () => {
+        await campaign.methods.contribute().send({
+            //marked as contributor
+            from: accounts[0],
+            value: web3.utils.toWei('10', 'ether')
+        });
+
+        await campaign.methods
+            //send to accounts[1];
+            .createRequest('A', web3.utils.toWei('5', 'ether'), accounts[1])
+            //
+            .send({ from: accounts[0], gas: '1000000' 
+        });
+        
+        //specify index
+        await campaign.methods.approveRequest(0).send({
+            from: accounts[0],
+            gas: '1000000'
+        });
+
+        //finalize acounts
+        await campaign.methods.finalizeRequest(0).send({
+            from: accounts[0],
+            gas: '1000000'
+        });
+        //get balance
+        //balance is string that accounts[1] have in wei
+        let balance = await web3.eth.getBalance(accounts[1]);
+        balance = web3.utils.fromWei(balance, 'ether');
+        balance = parseFloat(balance);
+
+        //balance is greater than some minimum amount that
+        assert(balance > 104);
+    });
 });
