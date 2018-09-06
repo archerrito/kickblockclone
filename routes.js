@@ -6,7 +6,8 @@ const routes = require('next-routes')();
 //second argument is component
 routes
     .add('/campaigns/new', 'campaigns/new')
-    .add('/campaigns/:address', '/campaigns/show');
+    .add('/campaigns/:address', '/campaigns/show')
+    .add('/campaigns/:address/requests', '/campaigns/requests/index');
 
 module.exports = routes;
 // //for routes with custom tokes
