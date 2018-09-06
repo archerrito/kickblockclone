@@ -4,6 +4,7 @@ import Campaign from '../../../ethereum/campaign';
 import web3 from '../../../ethereum/web3';
 import { Link, Router } from '../../../routes';
 import Layout from '../../../components/Layout';
+import campaign from '../../../ethereum/campaign';
 
 class RequestNew extends Component {
     state = {
@@ -18,11 +19,32 @@ class RequestNew extends Component {
         return { address };
     }
 
+    onSubmit = async event => {
+        event.preventDefault();
+
+        const campaign = Campaign(this.props.address);
+        const { description, value, recipient } = this.state;
+
+        try {
+            //get list of accounts, use account at [0] to send request
+            //to our createRequest function
+            const accounts = await web3.eth.getAccounts();
+            await campaign.methods.createRequest(
+                description, 
+                web3.utils.toWei(value, 'ether'),
+                recipient
+            )
+            .send({ from: accounts[0] });
+        } catch (err) {
+            
+        }
+    };
+
   render() {
     return (
         <Layout>
             <h3>Create a Request</h3>
-            <Form>
+            <Form onSubmit={this.onSubmit}>
                 <Form.Field>
                     <label>Description</label>
                     <Input 
