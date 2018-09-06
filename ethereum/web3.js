@@ -9,7 +9,7 @@ if (typeof window !== 'undefined' && typeof window.web3 !== 'undefined') {
 } else {
     //on server, or user is nt running metamask
     const provider = new Web3.providers.HttpProvider(
-        'https://rinkeby.infura.io/v3/20f4c847a4c243e5a36ec8c0ce926b46'
+        'https://ropsten.infura.io/v3/20f4c847a4c243e5a36ec8c0ce926b46'
     );
     web3 = new Web3(provider);
 }
